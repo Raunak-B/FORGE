@@ -1,7 +1,36 @@
 "use server";
-import { recommendSplit } from "@/lib/recommendation-engine";
+
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { recommendSplit } from "@/lib/recommendation-engine";
+
+export async function login(formData: FormData) {
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) return redirect("/login?error=Could not authenticate user");
+  return redirect("/workouts");
+}
+
+export async function signup(formData: FormData) {
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+
+  if (error) return redirect("/signup?error=Could not create account");
+  return redirect("/onboarding");
+}
 
 export async function completeOnboarding(formData: FormData) {
   const supabase = await createClient();
