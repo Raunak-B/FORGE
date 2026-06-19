@@ -188,8 +188,13 @@ export default function OnboardingPage() {
                 Continue
               </Button>
             ) : (
-              <Button type="submit" className="w-2/3">
-                Enter The Forge
+              <Button type="submit" className="w-2/3 group relative overflow-hidden">
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  Generate My Plan
+                  <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </span>
               </Button>
             )}
           </div>
