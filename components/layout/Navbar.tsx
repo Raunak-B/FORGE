@@ -1,8 +1,12 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
-import Button from "@/components/ui/Button";
+import { createClient } from "@/lib/supabase/server";
+import AuthDropdown from "./AuthDropdown";
 
-export default function Navbar() {
+export default async function Navbar() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Workouts", href: "/workouts" },
@@ -37,11 +41,7 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-4">
-            {/* Auth Placeholders */}
-            <Button variant="ghost" className="hidden sm:inline-flex">
-              Sign In
-            </Button>
-            <Button variant="primary">Profile</Button>
+            <AuthDropdown user={user} />
           </div>
         </div>
       </Container>
