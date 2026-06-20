@@ -28,7 +28,17 @@ export async function signup(formData: FormData) {
     password,
   });
 
-  if (error) return redirect("/signup?error=Could not create account");
+  if (error) {
+    let errorMessage = error.message;
+    
+    // Clean up specific Supabase error strings for better UX
+    if (errorMessage === "User already registered") {
+      errorMessage = "An account with that email already exists.";
+    }
+
+    return redirect(`/signup?error=${encodeURIComponent(errorMessage)}`);
+  }
+
   return redirect("/onboarding");
 }
 
